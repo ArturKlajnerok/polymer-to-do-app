@@ -59,11 +59,51 @@
     Polymer({
       is: 'to-do-list',
       properties: {
-        prop1: {
-          type: String,
-          value: 'to-do-list',
+        todo: {
+            type: Array,  // Default with one value
+            value: [{user:"Coder",task:"Learn Polymer",rid:0}]
+        },
+        done: {
+            type:Array,
+            value: []
         },
       },
+      postTask: function(e) {  // Add a new task
+        var tsk = this.$.tTask.value;
+        var usr = this.$.tUser.value;
+        if (tsk==""){
+            alert("Task is Empty!");
+            return;
+        }
+        if (usr==""){
+            usr = "Anonymous";
+        }
+        this.$.tTask.value = "";
+        //Will need to publish the task in Part 4
+      },
+      handleComplete: function(e){
+        var idx = findWithAttr(this.todo, 'rid', e.target.rid);
+        var itm = this.todo[idx];
+        itm.task = e.target.task;       //Task of the fired event
+        itm.user = this.$.tUser.value; //User who completed task
+        itm.type = "done";              //Change to completed
+        // Will Publish completed item in Part 4
+      },
+      ready: function(e){
+        this.addEventListener('complete', this.handleComplete);
+      }
     });
+
+    function randID(){  // RandID is just a large number, could be better.
+      return Math.floor(Math.random()*10000);
+    }
+
+    function findWithAttr(array, attr, value) { //Finds object index in array by its random ID
+      for(var i = 0; i < array.length; i += 1) {
+        if(array[i][attr] === value) {
+            return i;
+        }
+      }
+    }
   </script>
 </dom-module>
