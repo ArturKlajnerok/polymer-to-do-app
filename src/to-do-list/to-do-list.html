@@ -18,7 +18,16 @@
           <paper-toolbar>
               <paper-item>Side Bar Title</paper-item>
           </paper-toolbar>
-          <!-- Side Bar Content -->
+          <paper-menu class="list">
+            <template is="dom-if" if="{{!done.length}}">
+                <paper-material>
+                    <paper-item>Completed tasks will appear here!</paper-item>
+                </paper-material>
+            </template>
+            <template id="done" is="dom-repeat" items="{{done}}">
+                <paper-item>{{item.task}}<i style="margin-left: 5px;">{{item.user}}</i></paper-item>
+            </template>
+        </paper-menu>
       </paper-header-panel>
       <paper-header-panel main>
           <paper-toolbar>
